@@ -226,3 +226,69 @@ footer {
     padding: 40px 0;
 }
 
+.reviews {
+    padding: 50px 0;
+}
+
+.reviews form {
+    background: #1b1b1b;
+    padding: 20px;
+    margin: 20px 0 40px 0;
+    border: 1px solid #333333;
+}
+
+.reviews label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.reviews input,
+.reviews textarea {
+    width: 95%;
+    padding: 10px;
+    background: #111111;
+    color: #dddddd;
+    border: 1px solid #444444;
+}
+
+.reviews select {
+    width: 100px;
+    padding: 8px;
+    background: #111111;
+    color: #dddddd;
+    border: 1px solid #444444;
+}
+
+.reviews textarea {
+    height: 100px;
+}
+
+.reviews button {
+    display: block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #e83057;
+    color: white;
+    border: none;
+}
+
+.review {
+    background: #1b1b1b;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-left: 3px solid #e83057;
+}
+
+.review h3 {
+    margin: 0;
+}
+
+.review-rating {
+    color: #e83057;
+}
+
+.review-date {
+    color: #777777;
+    font-size: 14px;
+}
