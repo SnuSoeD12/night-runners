@@ -292,3 +292,35 @@ footer {
     color: #777777;
     font-size: 14px;
 }
+
+.pagination {
+    margin-top: 25px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 8px;
+}
+
+.pagination a,
+.pagination .current-page {
+    display: inline-block;
+    padding: 7px 12px;
+    background-color: #1b1b1b;
+    color: #dddddd;
+    border: 1px solid #333333;
+    text-decoration: none;
+}
+
+.pagination a:visited {
+    color: #dddddd;
+}
+
+.pagination a:hover {
+    border-color: #e83057;
+    color: #ffffff;
+}
+
+.pagination .current-page {
+    background-color: #e83057;
+    border-color: #e83057;
+    color: #ffffff;
+}

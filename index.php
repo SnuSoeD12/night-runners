@@ -1,22 +1,21 @@
 <?php
+require_once "db.php";
 date_default_timezone_set("Asia/Krasnoyarsk");
 
 if (isset($_POST["send"])) {
     $name = trim($_POST["name"]);
-    $rating = $_POST["rating"];
+    $rating = (int)$_POST["rating"];
     $review = trim($_POST["review"]);
 
     if ($name != "" && $review != "") {
-        // Убираем переносы строк и символ-разделитель
-        $name = str_replace("|", "", $name);
-        $review = str_replace(array("\r", "\n", "|"), " ", $review);
 
-        $date = date("d.m.Y H:i");
+        $name = mysqli_real_escape_string($connection, $name);
+        $review = mysqli_real_escape_string($connection, $review);
 
-        $line = $name . "|" . $rating . "|" . $review . "|" . $date . PHP_EOL;
+        $sql = "INSERT INTO reviews (name, rating, review_text, created_at)
+                VALUES ('$name', $rating, '$review', NOW())";
 
-        file_put_contents("reviews.txt", $line, FILE_APPEND);
-
+        mysqli_query($connection, $sql);
         header("Location: index.php");
         exit;
     }
@@ -121,26 +120,72 @@ if (isset($_POST["send"])) {
 
 		<h2>Отзывы пользователей</h2>
 
-		<?php
-		if (file_exists("reviews.txt")) {
-			$reviews = file("reviews.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-			$reviews = array_reverse($reviews);
+<?php
+$limit = 3;
+$page = 1;
+if (isset($_GET["page"])) 
+{
+    $page = (int)$_GET["page"];
+}
+if ($page < 1)
+{
+    $page = 1;
+}
 
-			foreach ($reviews as $line) {
-				$data = explode("|", $line);
+//считаем для пропуска отзывов
+$offset = ($page - 1) * $limit;
 
-				if (count($data) == 4) {
-					echo '<div class="review">';
-					echo '<h3>' . htmlspecialchars($data[0]) . '</h3>';
-					echo '<p class="review-rating">Оценка: ' . htmlspecialchars($data[1]) . '/5</p>';
-					echo '<p>' . htmlspecialchars($data[2]) . '</p>';
-					echo '<p class="review-date">' . htmlspecialchars($data[3]) . '</p>';
-					echo '</div>';
-				}
-			}
-		} else {echo "<p>Отзывов пока нет.</p>";}
-		?>
+//посчет кол-ва отзывов
+$count_result = mysqli_query($connection, "SELECT COUNT(*) AS total FROM reviews");
+$count_data = mysqli_fetch_assoc($count_result);
+$total_reviews = $count_data["total"];
+$total_pages = ceil($total_reviews / $limit);
 
+// получение отзывов из БД
+$sql = "SELECT * FROM reviews
+        ORDER BY id DESC
+        LIMIT $limit OFFSET $offset";
+
+$result = mysqli_query($connection, $sql);
+
+while ($row = mysqli_fetch_assoc($result)) //вывод отзывов
+{
+    echo '<div class="review">';
+
+    echo '<h3>' .
+        htmlspecialchars($row["name"]) .
+        '</h3>';
+    echo '<p class="review-rating">Оценка: ' .
+        htmlspecialchars($row["rating"]) .
+        '/5</p>';
+	echo '<p>' .
+		nl2br(htmlspecialchars($row["review_text"])) .
+		'</p>';
+    echo '<p class="review-date">' .
+        htmlspecialchars($row["created_at"]) .
+        '</p>';
+
+    echo '</div>';
+}
+
+if ($total_pages > 1) //номера страниц
+{
+    echo '<div class="pagination">';
+    for ($i = 1; $i <= $total_pages; $i++) 
+    {
+        if ($i == $page) 
+        {
+            echo '<span class="current-page">' . $i . '</span>';
+        } 
+        else 
+        {
+            echo '<a href="index.php?page=' . $i . '">' . $i . '</a>';
+        }
+    }
+
+    echo '</div>';
+}
+?>
 	</section>
     </main>
 
