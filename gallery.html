@@ -11,7 +11,7 @@
     <header>
         <div class="logo">NIGHT-RUNNERS <span>FAN BASE</span></div>
         <nav>
-            <a href="index.html">Главная</a>
+            <a href="index.php">Главная</a>
             <a href="about.html">Об игре</a>
             <a href="gameplay.html">История</a>
             <a href="tuning.html">Тюнинг</a>
@@ -19,41 +19,29 @@
 			<a href="music.html">Музыка</a>
         </nav>
     </header>
-
     <main>
         <section class="page-title">
             <p class="small-title">СКРИНШОТЫ</p>
             <h1>Галерея</h1>
             <p>Несколько изображений, показывающих атмосферу и основные элементы игры.</p>
         </section>
-
-        <section class="gallery">
-            <figure>
-                <img src="images/scene1.jpg" alt="Ночная улица">
-                <figcaption>Ночные улицы</figcaption>
-            </figure>
-            <figure>
-                <img src="images/parking1.jpg" alt="Автомобиль в игре">
-                <figcaption>Парковка</figcaption>
-            </figure>
-            <figure>
-                <img src="images/garage.webp" alt="Гараж">
-                <figcaption>Гараж</figcaption>
-            </figure>
-            <figure>
-                <img src="images/scene2.jpg" alt="Работа с автомобилем">
-                <figcaption>Работа с автомобилем</figcaption>
-            </figure>
-            <figure>
-                <img src="images/night-runners_gameplay.jpg" alt="Парковка">
-                <figcaption>Встречи гонщиков</figcaption>
-            </figure>
-        </section>
+		<section class="gallery-slider">
+			<div class="slider">
+				<img id="slider-image" src="images/scene1.jpg" alt="Ночные улицы">
+				<p id="slider-title"></p>	
+				<div class="slider-buttons">
+					<button onclick="prevImage()">Назад</button>
+					<span id="slider-count">1 / 5</span>	
+					<button onclick="nextImage()">Вперёд</button>
+				</div>
+			</div>
+		</section>
     </main>
 
     <footer>
         <p>NIGHT-RUNNERS Fan Base, 2026</p>
         <p>Неофициальный фан-сайт!</p>
     </footer>
+	<script src="script.js"></script>
 </body>
 </html>
